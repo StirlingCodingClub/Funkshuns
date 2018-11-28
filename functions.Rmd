@@ -1,0 +1,223 @@
+---
+title: "Functions"
+output:
+  slidy_presentation:
+    code_folding: TRUE
+---
+
+# Content
+
+### What we'll try and cover
+
++ What are functions
++ How to know if you should write a function
++ How to write functions
+  + Anatomy
+  + Try it
+  + How to learn to write _decent_ functions
++ What to do with your functions
+  + Where to place them in a script
+  + How to use them in future scripts
++ (Anonymous functions)
+
+# What we won't discuss
+
++ Packages
++ Tidyverse
+  + NSE
++ Cats
+
+> Cats are intended to teach us that not everything in nature has a function.  
+> &emsp; _~ Garrison Keillor_
+
+# What is a function?
+
+Any given input should lead to the same output
+
+![_Wikipedia_](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Function_machine2.svg/330px-Function_machine2.svg.png)
+
+# What is a function?
+
+### Guess the function
+
+_(could be none, any or all)_
+
+> 1. &emsp; mean
+> 1. &emsp; mean()
+> 1. &emsp; (
+> 1. &emsp; `+`
+> 1. &emsp; :
+> 1. &emsp; dplyr
+> 1. &emsp; 42
+> 1. &emsp; NA
+> 1. &emsp; 'a'
+> 1. &emsp; A
+> 1. &emsp; `A <- mean`
+
+# `is.function`
+
+```{r}
+is.function(`(`)
+sapply(c(mean, `(`, `+`, `:`, 42, 'A', `for`, NaN, Inf, NA),
+       is.function)
+```
+
+### `+` is a function?
+
+```{r}
+`+`(10, 20)
+```
+
+
+# In `R` __everything__ is a function
+
+Most are followed by `()`
+
+#### How to get info on an existing function
+
+Enter a function name, without parenthises...
+
+# Reasons to write your own functions
+
++ DRY code
+  + reduce repetition
++ Reusability
+  + within and across scripts or projects
++ Readability
+  + Self documenting code
+  + There are only two __hard things__ in Computer Science: cache invalidation and __naming things__
++ To make problem solving / debugging easier
++ Housekeeping
+  + partitioning
+  + separates definition from implementation
+  
+# When should you write a function?
+
++ All the time!
+
+# When not to write a function
+
+When someone else already wrote it!
+
+\> 13,000 packages on CRAN + loads more on Github etc
+
+Trade off between time spent looking vs writing
+
+# How
+
+### Anatomy
+
+Functions have 3 parts
+
++ `formals` = arguments
++ `body`
++ (`environment`)
+
+```{r eval=FALSE}
+read.csv(file, header = TRUE, sep = ",", quote = "\"",
+         dec = ".", fill = TRUE, comment.char = "", ...) {
+  
+  # BODY
+    # csv reading code goes here...
+
+}
+```
+
+![][Dummies]
+![][advR-cover]
+
+# Crappy example
+
+```{r}
+x_plus_x <- function(x) {
+  
+  x + x
+  
+}
+
+x_plus_x(10)
+```
+
+# Better example
+
+### SEM
+
+There is no in-built function for calculating the standard error of the mean...
+
+__SEM = standard deviation divided by sample size $= \frac{\sigma}{\sqrt{n}}$__
+
+Write the SE function...
+
+```{r eval=FALSE}
+stderr <- function(???) {
+  
+  ??????
+    
+}
+```
+
+# One more
+
+$$y = a + \beta x$$
+
+# Stuff
+
+# How much work should a function do?
+
+One thing!
+
+If you have a complex task to perform, break it into smaller tasks.  
+Write a function for each sub-task
+
+Makes debugging easier
+
+One return value  
+...but `summary()`?
+
+```{r}
+summary(lm(dist ~ speed, cars))
+```
+
+
+# Environments
+
+Each function has its own environment  
+Objects created in a functions environment are not available outside this environment  
+Watch out for global variables / "magic numbers"
+
+
+# What to do with your functions in a scripts
+
++ Define all functions at the very start of a script
+  + fine for a small number of short functions
+  + only used within a single script
++ Save all functions in a separate script eg funcs.R
+  + use `source('funcs.R')
++ Write a package...
+
+
+# Challenge?
+
+>- Write a function that will calculate intercept and slope coefficients from two sets of coordinates
+>- ie $\frac{Rise}{Run}$  
+input would be c(x1, y1), c(x2, y2)
+
+<br><br><br><br>
+
+>- Harder
+
+>- Write a function that will partition an integer into its units, tens, hundreds etc
+>- E.g for an input of &emsp;&emsp;&emsp; 123  
+   the output would be: &emsp;&emsp; 100 &emsp;&emsp; 20 &emsp;&emsp; 3
+
+
+
+****************************
+
+[func]: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Function_machine2.svg/330px-Function_machine2.svg.png
+
+[advR-website]: http://adv-r.had.co.nz/
+
+[Dummies]: https://pxhst.co/avaxhome/0c/4b/003c4b0c.jpg
+
+[advR-cover]: https://weltbild.scene7.com/asset/vgw/advanced-r-168499864.jpg
